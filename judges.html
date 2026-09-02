@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlantic Spelling Bee 2026 - Judges Dashboard</title>
+    <style>
+        :root {
+            --primary: #4A154B;
+            --accent: #FFD166;
+            --bg-grad-1: #3a1c71;
+            --bg-grad-2: #d76d77;
+            --bg-grad-3: #ffaf7b;
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Flying Bees Background */
+        .bee-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bee {
+            position: absolute;
+            font-size: 2.2rem;
+            animation: fly 14s linear infinite;
+            opacity: 0.85;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        .bee:nth-child(1) { top: 10%; left: -10%; animation-duration: 12s; animation-delay: 0s; }
+        .bee:nth-child(2) { top: 35%; left: -10%; animation-duration: 16s; animation-delay: 3s; }
+        .bee:nth-child(3) { top: 60%; left: -10%; animation-duration: 11s; animation-delay: 1s; }
+        .bee:nth-child(4) { top: 80%; left: -10%; animation-duration: 15s; animation-delay: 5s; }
+
+        @keyframes fly {
+            0% { transform: translateX(-10vw) translateY(0) rotate(5deg); }
+            25% { transform: translateX(30vw) translateY(-30px) rotate(-5deg); }
+            50% { transform: translateX(60vw) translateY(20px) rotate(8deg); }
+            75% { transform: translateX(85vw) translateY(-25px) rotate(-3deg); }
+            100% { transform: translateX(110vw) translateY(0) rotate(5deg); }
+        }
+
+        .main-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #FFFFFF;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            margin: 10px 0 5px 0;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            color: #FFE66D;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            margin: 0;
+        }
+
+        .year-menu {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .year-btn {
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            color: white;
+            border: 2px solid #FFFFFF;
+            padding: 10px 22px;
+            font-size: 17px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .year-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .year-btn.active {
+            background: linear-gradient(135deg, #4E65FF, #92EFFD);
+            color: #000;
+            border-color: #FFE66D;
+            box-shadow: 0 0 15px rgba(255, 230, 109, 0.8);
+        }
+
+        .controls {
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 14px 22px;
+            font-size: 18px;
+            border: 3px solid #FFE66D;
+            border-radius: 30px;
+            outline: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .search-box:focus {
+            border-color: #FF6B6B;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.6);
+        }
+
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 15px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .word-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+            border-top: 4px solid #FF6B6B;
+            transition: transform 0.2s;
+        }
+
+        .word-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .word-card .num {
+            font-weight: 900;
+            font-size: 22px;
+            background: linear-gradient(45deg, #FF007F, #7928CA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            min-width: 55px;
+        }
+
+        .word-card .word {
+            font-size: 18px;
+            color: #2D3748;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bee-container">
+        <div class="bee">🐝</div>
+        <div class="bee">🐝</div>
+        <div class="bee">🐝</div>
+        <div class="bee">🐝</div>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <h1>Atlantic Spelling Bee 2026</h1>
+            <p>Judges Dashboard & Instant Lookup</p>
+        </header>
+
+        <div class="year-menu" id="yearMenu"></div>
+
+        <div class="controls">
+            <input type="text" id="searchBox" class="search-box" placeholder="🔍 Search word or number..." oninput="filterWords()">
+        </div>
+
+        <div class="word-grid" id="wordGrid"></div>
+    </div>
+
+    <script>
+        const wordData = {
+            "Year 2": {
+                1: "active", 2: "agree", 3: "Arctic", 4: "assistant", 5: "backpack", 6: "bedroom", 7: "bicycle", 10: "breakfast",
+                11: "butterfly", 12: "classroom", 13: "clock", 14: "clothes", 15: "colour", 16: "community", 17: "count", 18: "crayon",
+                19: "danger", 20: "decorate", 21: "elephant", 22: "exercise", 23: "farmer", 24: "favourite", 25: "flashlight", 26: "flower",
+                27: "friend", 28: "garden", 29: "giraffe", 30: "guess", 31: "happy", 32: "healthy", 33: "holiday", 34: "monkey",
+                35: "morning", 36: "notebook", 37: "pencil", 38: "picture", 39: "planet", 40: "sandwich", 41: "school", 42: "schoolbag",
+                43: "shadow", 44: "sunshine", 45: "teacher", 46: "teeth", 47: "these", 48: "those", 49: "touch", 50: "uniform",
+                51: "vegetable", 52: "verse", 53: "water", 54: "wear", 55: "weather", 56: "window", 57: "write", 58: "yesterday"
+            },
+            "Year 3": {
+                1: "actions", 2: "adventure", 3: "ankle", 4: "apartment", 5: "baking", 6: "balanced", 7: "bamboo", 8: "bandage",
+                9: "beaver", 10: "bedroom", 11: "bicycle", 12: "blender", 13: "calcium", 14: "calendar", 15: "camping", 16: "cardboard",
+                17: "carpet", 18: "celebrate", 19: "charades", 20: "charger", 21: "charity", 22: "chasing", 23: "community", 24: "comparative",
+                25: "complete", 26: "compost", 27: "computer", 28: "continent", 29: "discover", 30: "dishes", 31: "donate", 32: "dressed",
+                33: "electronic", 34: "environment", 35: "explore", 36: "games", 37: "garage", 38: "garden", 39: "gardening", 40: "grains",
+                41: "grandad", 42: "grandma", 43: "grandparents", 44: "guessing", 45: "gymnastics", 46: "headache", 47: "healthy", 48: "homework",
+                49: "hopscotch", 50: "houseboat", 51: "indicate", 52: "ingredients", 53: "playground", 54: "postcard", 55: "prepare", 56: "protect",
+                57: "sunglasses", 58: "sunhat", 59: "superlative", 60: "sweep"
+            },
+            "Year 4": {
+                1: "achievement", 2: "address", 3: "advertisement", 4: "audience", 5: "biography", 6: "camping", 7: "champion", 8: "character",
+                9: "community", 10: "compete", 11: "competition", 12: "confidence", 13: "damage", 14: "definition", 15: "describe", 16: "emergency",
+                17: "endangered", 18: "entertainment", 19: "experience", 20: "habitat", 21: "headline", 22: "healthy", 23: "heatwave", 24: "homework",
+                25: "honest", 26: "information", 27: "ingredients", 28: "inspirational", 29: "instruction", 30: "keyboard", 31: "knowledge", 32: "landmark",
+                33: "landscape", 34: "language", 35: "leadership", 36: "modern", 37: "mountain", 38: "museum", 39: "neighbour", 40: "playground",
+                41: "pollution", 42: "practise", 43: "predator", 44: "presenter", 45: "process", 46: "quality", 47: "question", 48: "rating",
+                49: "recipe", 50: "remember", 51: "reporter", 52: "rescue", 53: "respect", 54: "sequence", 55: "shelter", 56: "similarity",
+                57: "skyscraper", 58: "stereotype", 59: "strategy", 60: "talented", 61: "technology", 62: "tournament", 63: "traditional", 64: "training",
+                65: "tsunami", 66: "understand", 67: "unhealthy", 68: "village", 69: "volcano", 70: "warning", 71: "waste", 72: "wildlife"
+            },
+            "Year 5": {
+                1: "adaptation", 2: "amazing", 3: "amphibian", 4: "architecture", 5: "autobiography", 6: "awareness", 7: "building", 8: "camouflage",
+                9: "carefully", 10: "cathedral", 11: "challenge", 12: "consequence", 13: "conservation", 14: "construction", 15: "definition", 16: "delicious",
+                17: "destruction", 18: "earthquake", 19: "ecosystem", 20: "emergency", 21: "empathy", 22: "endangered", 23: "engineer", 24: "environment",
+                25: "feathers", 26: "festival", 27: "fitness", 28: "flavour", 29: "flexibility", 30: "hibernation", 31: "hygiene", 32: "impact",
+                33: "ingredients", 34: "mammal", 35: "material", 36: "migration", 37: "modern", 38: "monument", 39: "nutrition", 40: "orangutan",
+                41: "oxygen", 42: "playground", 43: "playscript", 44: "preparation", 45: "preserve", 46: "prevention", 47: "protection", 48: "quickly",
+                49: "queen", 50: "recipe", 51: "recovery", 52: "recycle", 53: "relief", 54: "reptile", 55: "rescue", 56: "respect",
+                57: "responsibility", 58: "seasoning", 59: "skeleton", 60: "skyscraper", 61: "solution", 62: "somewhere", 63: "strength", 64: "structure",
+                65: "sunlight", 66: "support", 67: "sustainable", 68: "therefore", 69: "tradition", 70: "volunteer", 71: "warning", 72: "wildlife"
+            },
+            "Year 6": {
+                1: "accommodation", 2: "adaptation", 3: "advancement", 4: "adventure", 5: "advertisement", 6: "analysis", 7: "apartment", 8: "applause",
+                9: "application", 10: "architecture", 11: "biodiversity", 12: "breakthrough", 13: "broadcast", 14: "comprehension", 15: "connective", 16: "conservation",
+                17: "construction", 18: "currency", 19: "customer", 20: "description", 21: "designed", 22: "development", 23: "discovery", 24: "download",
+                25: "ecosystem", 26: "employer", 27: "employment", 28: "endangered", 29: "entertainment", 30: "environment", 31: "evaluation", 32: "evolution",
+                33: "expedition", 34: "experience", 35: "exploration", 36: "extinction", 37: "feedback", 38: "forecast", 39: "gadget", 40: "imagination",
+                41: "improve", 42: "income", 43: "innovation", 44: "inspiration", 45: "instruction", 46: "interview", 47: "investment", 48: "knowledge",
+                49: "landscape", 50: "leadership", 51: "located", 52: "management", 53: "objective", 54: "observation", 55: "occupation", 56: "opportunity",
+                57: "organism", 58: "outcome", 59: "overnight", 60: "performer", 61: "persuade", 62: "phenomenon", 63: "playground", 64: "pollution",
+                65: "position", 66: "production", 67: "profession", 68: "qualification", 69: "reproduction", 70: "responsibility", 71: "surroundings", 72: "teamwork",
+                73: "technology", 74: "transaction", 75: "weather"
+            },
+            "Year 7": {
+                1: "accelerate", 2: "abbreviation", 3: "accomplishment", 4: "accumulate", 5: "accurate", 6: "acknowledgement", 7: "address", 8: "affiliation",
+                9: "alliteration", 10: "analyse", 11: "ancient", 12: "applaud", 13: "asymmetrical", 14: "atmosphere", 15: "author", 16: "auxiliary",
+                17: "awesome", 18: "belligerent", 19: "biodiversity", 20: "civilisation", 21: "collaboration", 22: "communication", 23: "community", 24: "component",
+                25: "compound", 26: "consequence", 27: "conservation", 28: "constitution", 29: "contamination", 30: "copyright", 31: "decoration", 32: "demeanor",
+                33: "demonstration", 34: "devious", 35: "dialogue", 36: "digestion", 37: "discrimination", 38: "endangered", 39: "engineer", 40: "ensemble",
+                41: "enthralled", 42: "entrepreneur", 43: "environment", 44: "environmental", 45: "ecosystem", 46: "exaggerate", 47: "expedition", 48: "exposition",
+                49: "extraordinary", 50: "famished", 51: "frequency", 52: "generous", 53: "geography", 54: "hardworking", 55: "hemisphere", 56: "hilarious",
+                57: "hypothetical", 58: "independent", 59: "infection", 60: "interested", 61: "invention", 62: "investigate", 63: "invitation", 64: "knowledge",
+                65: "language", 66: "legitimate", 67: "mammal", 68: "material", 69: "metamorphosis", 70: "mitochondria", 71: "mysterious", 72: "necessary",
+                73: "neighbourhood", 74: "oxygen", 75: "frequency", 76: "persuasive", 77: "philanthropy", 78: "photosynthesis", 79: "process", 80: "prominent",
+                81: "prosperity", 82: "radioactive", 83: "repertoire", 84: "researcher", 85: "resistant", 86: "species", 87: "substantial", 88: "synonym",
+                89: "talkative", 90: "thriller"
+            },
+            "Year 8": {
+                1: "accelerate", 2: "accommodate", 3: "adaptation", 4: "address", 5: "adventurous", 6: "agriculture", 7: "alliteration", 8: "ambitious",
+                9: "analyse", 10: "ancient", 11: "applaud", 12: "asymmetrical", 13: "atmosphere", 14: "author", 15: "autobiography", 16: "auxiliary",
+                17: "awesome", 18: "bacteria", 19: "balance", 20: "beneficial", 21: "bibliography", 22: "bicycle", 23: "biodiversity", 24: "building",
+                25: "calendar", 26: "campaign", 27: "capacity", 28: "careful", 29: "category", 30: "charity", 31: "chlorophyll", 32: "chromosome",
+                33: "civilisation", 34: "collaborate", 35: "combination", 36: "communication", 37: "community", 38: "competition", 39: "compound", 40: "conclusion",
+                41: "confidence", 42: "conscience", 43: "conscientious", 44: "conservation", 45: "construction", 46: "continent", 47: "contribution", 48: "convenience",
+                49: "cooperation", 50: "copyright", 51: "curiosity", 52: "decoration", 53: "deforestation", 54: "determination", 55: "dialogue", 56: "digestion",
+                57: "discipline", 58: "dissolve", 59: "ecosystem", 60: "ecosystem", 61: "elephant", 62: "embarrassing", 63: "enormous", 64: "ensemble",
+                65: "environment", 66: "erosion", 67: "evaporation", 68: "exaggerate", 69: "expedition", 70: "extreme", 71: "figurative", 72: "fluorescence",
+                73: "foreign", 74: "fossilisation", 75: "frequency", 76: "gadget", 77: "generous", 78: "geography", 79: "gesture", 80: "gigantic",
+                81: "glacier", 82: "glucose", 83: "government", 84: "gravity", 85: "guarantee", 86: "habitat", 87: "hardworking", 88: "hemisphere",
+                89: "hypothetical", 90: "independent", 91: "infection", 92: "interested", 93: "invention", 94: "investigate", 95: "invitation", 96: "irrigation",
+                97: "knowledge", 98: "laboratory", 99: "language", 100: "manufacture", 101: "marketing", 102: "maximum", 103: "metamorphosis", 104: "metaphor", 105: "minimum"
+            },
+            "Year 9": {
+                1: "accidentally", 2: "accommodate", 3: "accomplishment", 4: "accumulate", 5: "achievement", 6: "acknowledgement", 7: "adjective", 8: "admiration",
+                9: "adolescence", 10: "adventure", 11: "advertisement", 12: "agriculture", 13: "alliteration", 14: "ambitious", 15: "amphibian", 16: "analysis",
+                17: "anniversary", 18: "anomaly", 19: "apprentice", 20: "architecture", 21: "articulation", 22: "assumption", 23: "asymmetrical", 24: "atmosphere",
+                25: "autobiography", 26: "available", 27: "awesome", 28: "beneficial", 29: "biodiversity", 30: "building", 31: "buoyant", 32: "calculator",
+                33: "camouflage", 34: "capacity", 35: "carnival", 36: "category", 37: "caution", 38: "celebrate", 39: "championship", 40: "chromosome",
+                41: "circumference", 42: "civilization", 43: "collaborate", 44: "committee", 45: "communication", 46: "community", 47: "competition", 48: "computer",
+                49: "determination", 50: "dialogue", 51: "dictionary", 52: "disagree", 53: "discussion", 54: "dissolve", 55: "ecosystem", 56: "education",
+                57: "electricity", 58: "embarrassed", 59: "encouragement", 60: "entertainment", 61: "environment", 62: "equation", 63: "essential", 64: "exaggerate",
+                65: "exhaustingly", 66: "exhibition", 67: "exhilaration", 68: "experiment", 69: "extraordinary", 70: "extreme", 71: "fascinated", 73: "grammar",
+                74: "hardworking", 75: "headache", 76: "horizontal", 77: "hypothetical", 78: "imagination", 79: "important", 80: "independent", 81: "infection",
+                82: "intellectual", 83: "investigation", 84: "invitation", 85: "language", 86: "magnificent", 87: "mathematics", 88: "metamorphosis", 89: "microscope",
+                90: "modern", 91: "mountain", 92: "mysterious", 93: "necessary", 94: "nervous", 95: "nucleus", 96: "opportunity", 97: "outgoing",
+                98: "penguin", 99: "perpendicular", 100: "philanthropy", 101: "photograph", 102: "pollution", 103: "responsibility", 104: "satisfactory", 105: "synonym",
+                106: "thriller", 107: "throne", 108: "tradition", 109: "vocabulary", 110: "youthful", 112: "fluorescence"
+            }
+        };
+
+        let activeYear = "Year 2";
+
+        function initMenu() {
+            const menuContainer = document.getElementById('yearMenu');
+            Object.keys(wordData).forEach(year => {
+                const btn = document.createElement('button');
+                btn.className = `year-btn ${year === activeYear ? 'active' : ''}`;
+                btn.innerText = year;
+                btn.onclick = () => selectYear(year);
+                menuContainer.appendChild(btn);
+            });
+            renderWords();
+        }
+
+        function selectYear(year) {
+            activeYear = year;
+            document.querySelectorAll('.year-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText === year);
+            });
+            document.getElementById('searchBox').value = '';
+            renderWords();
+        }
+
+        function renderWords() {
+            const grid = document.getElementById('wordGrid');
+            grid.innerHTML = '';
+            const list = wordData[activeYear];
+            
+            Object.keys(list).sort((a, b) => Number(a) - Number(b)).forEach(num => {
+                const div = document.createElement('div');
+                div.className = 'word-card';
+                div.innerHTML = `<span class="num">#${num}</span><span class="word">${list[num]}</span>`;
+                grid.appendChild(div);
+            });
+        }
+
+        function filterWords() {
+            const query = document.getElementById('searchBox').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.word-card');
+
+            cards.forEach(card => {
+                const num = card.querySelector('.num').innerText.toLowerCase();
+                const word = card.querySelector('.word').innerText.toLowerCase();
+                if (num.includes(query) || word.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        initMenu();
+    </script>
+</body>
+</html>

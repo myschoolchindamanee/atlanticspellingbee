@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlantic Spelling Bee 2026 - Student Stage Display</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, #120078, #9D0191, #FD3A69, #FECD1A);
+            background-size: 400% 400%;
+            animation: vibrantBG 12s ease infinite;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes vibrantBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Animated Bees */
+        .bee-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bee {
+            position: absolute;
+            font-size: 3rem;
+            animation: fly 12s linear infinite;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));
+        }
+
+        .bee:nth-child(1) { top: 15%; left: -10%; animation-duration: 10s; animation-delay: 0s; }
+        .bee:nth-child(2) { top: 40%; left: -10%; animation-duration: 14s; animation-delay: 2s; }
+        .bee:nth-child(3) { top: 70%; left: -10%; animation-duration: 9s; animation-delay: 4s; }
+
+        @keyframes fly {
+            0% { transform: translateX(-10vw) translateY(0) rotate(5deg); }
+            30% { transform: translateX(35vw) translateY(-40px) rotate(-10deg); }
+            60% { transform: translateX(70vw) translateY(30px) rotate(10deg); }
+            100% { transform: translateX(110vw) translateY(0) rotate(5deg); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #FECD1A;
+            font-size: 3.5rem;
+            margin: 10px 0 20px 0;
+            text-shadow: 4px 4px 10px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
+        }
+
+        .year-menu {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .year-btn {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 2px solid #FECD1A;
+            padding: 12px 22px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .year-btn:hover, .year-btn.active {
+            background: linear-gradient(135deg, #FECD1A, #FD3A69);
+            color: #000;
+            scale: 1.08;
+            box-shadow: 0 0 20px rgba(254, 205, 26, 0.9);
+        }
+
+        .randomize-btn {
+            background: linear-gradient(135deg, #00F2FE, #4FACFE);
+            color: #000;
+            border: 3px solid #FFFFFF;
+            padding: 20px 50px;
+            font-size: 28px;
+            font-weight: 900;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 242, 254, 0.6);
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .randomize-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.9);
+        }
+
+        .display-card {
+            background: rgba(255, 255, 255, 0.95);
+            max-width: 450px;
+            margin: 0 auto;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            border: 4px solid #FECD1A;
+        }
+
+        .number-label {
+            font-size: 1.6rem;
+            color: #6C757D;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .big-number {
+            font-size: 9rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #FF007F, #7928CA, #00F2FE);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            margin: 20px 0;
+        }
+
+        .history {
+            margin-top: 35px;
+            color: #FECD1A;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+        }
+
+        .history-tags {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: #FFF;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: 1px solid #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bee-container">
+        <div class="bee">🐝</div>
+        <div class="bee">🐝</div>
+        <div class="bee">🐝</div>
+    </div>
+
+    <div class="container">
+        <h1>Atlantic Spelling Bee 2026</h1>
+        <div class="year-menu" id="yearMenu"></div>
+
+        <button class="randomize-btn" onclick="drawRandomNumber()">🎲 DRAW NUMBER</button>
+
+        <div class="display-card">
+            <div class="number-label">Word Number</div>
+            <div class="big-number" id="currentNum">--</div>
+        </div>
+
+        <div class="history">
+            Previous Numbers Drawn:
+            <div class="history-tags" id="historyTags"></div>
+        </div>
+    </div>
+
+    <script>
+        const validNumbers = {
+            "Year 2": [1,2,3,4,5,6,7,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58],
+            "Year 3": Array.from({length: 60}, (_, i) => i + 1),
+            "Year 4": Array.from({length: 72}, (_, i) => i + 1),
+            "Year 5": Array.from({length: 72}, (_, i) => i + 1),
+            "Year 6": Array.from({length: 75}, (_, i) => i + 1),
+            "Year 7": Array.from({length: 90}, (_, i) => i + 1),
+            "Year 8": Array.from({length: 105}, (_, i) => i + 1),
+            "Year 9": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,112]
+        };
+
+        let selectedYear = "Year 2";
+        let history = [];
+
+        function initMenu() {
+            const menu = document.getElementById('yearMenu');
+            Object.keys(validNumbers).forEach(year => {
+                const btn = document.createElement('button');
+                btn.className = `year-btn ${year === selectedYear ? 'active' : ''}`;
+                btn.innerText = year;
+                btn.onclick = () => selectYear(year);
+                menu.appendChild(btn);
+            });
+        }
+
+        function selectYear(year) {
+            selectedYear = year;
+            history = [];
+            document.querySelectorAll('.year-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText === year);
+            });
+            document.getElementById('currentNum').innerText = '--';
+            document.getElementById('historyTags').innerHTML = '';
+        }
+
+        function drawRandomNumber() {
+            const list = validNumbers[selectedYear];
+            const randomIndex = Math.floor(Math.random() * list.length);
+            const num = list[randomIndex];
+
+            document.getElementById('currentNum').innerText = num;
+            
+            history.unshift(num);
+            if (history.length > 8) history.pop();
+
+            const historyContainer = document.getElementById('historyTags');
+            historyContainer.innerHTML = '';
+            history.forEach(n => {
+                const span = document.createElement('span');
+                span.className = 'tag';
+                span.innerText = `#${n}`;
+                historyContainer.appendChild(span);
+            });
+        }
+
+        initMenu();
+    </script>
+</body>
+</html>
